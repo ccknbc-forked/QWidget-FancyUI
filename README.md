@@ -75,29 +75,32 @@
     </thead>
     <tbody>
         <tr>
-            <td>def addShadow</td>
-            <td>为按钮添加阴影效果</td>
-            <td>
-                int<br>
-                int<br>
-                float<br>
-                QColor
-            </td>
-            <td>
-                阴影右偏移量<br>
-                阴影下偏移量<br>
-                模糊半径<br>
-                阴影颜色
-            </td>
+            <td rowspan="4">def addShadow</td>
+            <td rowspan="4">为按钮添加阴影效果</td>
+            <td>int</td>
+            <td>阴影右偏移量</td>
         </tr>
         <tr>
-            <td>def setTextColor</td>
-            <td>设置按钮文字默认颜色和悬浮时颜色</td>
-            <td>
-              QColor<br>
-              QColor
-            </td>
-            <td>按钮默认文字颜色<br>按钮悬浮时文字颜色</td>
+            <td>int</td>
+            <td>阴影下偏移量</td>
+        </tr>
+        <tr>
+            <td>float</td>
+            <td>模糊半径</td>
+        </tr>
+        <tr>
+            <td>QColor</td>
+            <td>阴影颜色</td>
+        </tr>
+        <tr>
+            <td rowspan="2">def setTextColor</td>
+            <td rowspan="2">设置按钮文字默认颜色和悬浮时颜色</td>
+            <td>QColor</td>
+            <td>按钮默认文字颜色</td>
+        </tr>
+        <tr>
+            <td>QColor</td>
+            <td>按钮悬浮时文字颜色</td>
         </tr>
         <tr>
             <td>def refreshRadius</td>
@@ -118,13 +121,14 @@
             <td>自定义的笔刷样式</td>
         </tr>
         <tr>
-            <td>def setAnimationType</td>
+            <td class="no-wrap">def setAnimationType</td>
             <td>设置动画类型,预提供了5种动画</td>
             <td>HoverFillButtonBase.AnimationType</td>
             <td>动画类型枚举</td>
         </tr>
     </tbody>
 </table>
+
 
 
 <div align="center">
