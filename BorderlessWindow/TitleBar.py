@@ -1,36 +1,34 @@
-from PySide6.QtCore import Qt, Signal, Slot
+from PySide6.QtCore import Qt, Slot
 from PySide6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QSizePolicy, QSpacerItem, QWidget
+from Border import Border
 
 
-class TitleBarUI:
-    # def __init__(self):
-    #     self.close_button = None
-    #     self.max_button = None
-    #     self.mini_button = None
-    #     self.horizontalSpacer = None
-    #     self.title_label = None
-    #     self.horizontalLayout = None
+class TitleBar(QWidget):
+    """标题栏"""
 
-    def setupUi(self, parent: QWidget):
-        parent.setFixedHeight(28)
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.isMax = False
 
-        self.horizontalLayout = QHBoxLayout(parent)
+        self.setFixedHeight(28)
+
+        self.horizontalLayout = QHBoxLayout(self)
         self.horizontalLayout.setSpacing(5)
         self.horizontalLayout.setContentsMargins(10, 0, 10, 0)
 
-        self.title_label = QLabel(text="标题", parent=parent)
+        self.title_label = QLabel(text="标题", parent=self)
         self.horizontalLayout.addWidget(self.title_label)
 
         self.horizontalSpacer = QSpacerItem(214, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
         self.horizontalLayout.addItem(self.horizontalSpacer)
 
-        self.mini_button = QPushButton(text="🗕", parent=parent)
+        self.mini_button = QPushButton(text="🗕", parent=self)
         self.horizontalLayout.addWidget(self.mini_button)
 
-        self.max_button = QPushButton(text="🗖", parent=parent)
+        self.max_button = QPushButton(text="🗖", parent=self)
         self.horizontalLayout.addWidget(self.max_button)
 
-        self.close_button = QPushButton(text="🗙", parent=parent)
+        self.close_button = QPushButton(text="🗙", parent=self)
         self.horizontalLayout.addWidget(self.close_button)
 
         self.mini_button.setFixedSize(35, 20)
@@ -68,26 +66,20 @@ class TitleBarUI:
                                         "    background-color: rgba(196,43,28,255);"
                                         "}")
 
+        self.mini_button.clicked.connect(self.window().showMinimized)
+        self.max_button.clicked.connect(self.MaximizeButtonClicked)
+        self.close_button.clicked.connect(self.window().close)
 
-class TitleBar(QWidget):
-    """标题栏"""
-    MoveWindow = Signal()
-    Maximized = Signal()
-
-    def __init__(self, parent):
-        super().__init__(parent)
-        self.ui = TitleBarUI()
-        self.ui.setupUi(self)
-
-        self.ui.mini_button.clicked.connect(self.window().showMinimized)
-        self.ui.max_button.clicked.connect(self.MaximizeButtonClicked)
-        self.ui.close_button.clicked.connect(self.window().close)
-
-    def mousePressEvent(self, event):
-        if event.button() == Qt.MouseButton.LeftButton:
+    def mouseMoveEvent(self, event):
+        if event.buttons() & Qt.MouseButton.LeftButton:
             if self.window().isMaximized():
-                self.ui.max_button.setText("🗖")
-            self.MoveWindow.emit()
+                self.max_button.setText("🗖")
+                for border in self.window().findChildren(Border):
+                    if border.isHidden():
+                        border.show()
+                self.window().layout().setContentsMargins(20, 0, 20, 20)
+            self.window().windowHandle().startSystemMove()
+            self.isMax = False
 
     def mouseDoubleClickEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
@@ -96,11 +88,11 @@ class TitleBar(QWidget):
     @Slot()
     def MaximizeButtonClicked(self):
         if not self.window().isMaximized():
-            self.ui.max_button.setText("🗗")
-            self.window().showMaximized()
+            self.max_button.setText("🗗")
+            self.window().showMaximized()  # 区别于C++，这里运行的是重写的showMaximized
             self.window().update()
         else:
-            self.ui.max_button.setText("🗖")
-            self.window().showNormal()
+            self.max_button.setText("🗖")
+            self.window().showNormal()  # 区别于C++，这里运行的是重写的showNormal
             self.window().update()
-        self.Maximized.emit()
+        self.isMax = True

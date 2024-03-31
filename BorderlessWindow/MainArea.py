@@ -1,7 +1,6 @@
-from PySide6.QtCore import Qt, Slot
-from PySide6.QtGui import QPaintEvent, QPainter, QColor, QPen
-from PySide6.QtWidgets import QVBoxLayout, QWidget
-
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QPaintEvent, QPainter, QColor
+from PySide6.QtWidgets import QVBoxLayout, QWidget, QGraphicsDropShadowEffect
 from TitleBar import TitleBar
 
 
@@ -22,22 +21,16 @@ class MainArea(QWidget):
         self.verticalLayout.setSpacing(0)
 
         self.title_bar = TitleBar(self)
-        self.customer_area = CustomerAreaWidget(self)
+        self.customer_area_widget = CustomerAreaWidget(self)
 
         self.verticalLayout.addWidget(self.title_bar)
-        self.verticalLayout.addWidget(self.customer_area)
+        self.verticalLayout.addWidget(self.customer_area_widget)
 
-        self.isMax: bool = False
-        self.title_bar.MoveWindow.connect(self.setMoving)
-        self.title_bar.Maximized.connect(self.setMaximized)
-
-    @Slot()
-    def setMoving(self):
-        self.isMax = False
-
-    @Slot()
-    def setMaximized(self):
-        self.isMax = True
+        self.shadow = QGraphicsDropShadowEffect(self)
+        self.shadow.setBlurRadius(35)
+        self.shadow.setColor(QColor(43, 45, 48, 100))
+        self.shadow.setOffset(0, 5)
+        self.setGraphicsEffect(self.shadow)
 
     def TitleBar(self):
         return self.title_bar
@@ -45,12 +38,9 @@ class MainArea(QWidget):
     def paintEvent(self, event: QPaintEvent):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
-        # pen = QPen(QColor(184, 184, 184))
-        # pen.setWidth(2)
-        # painter.setPen(pen)
         painter.setPen(Qt.PenStyle.NoPen)
         painter.setBrush(QColor(240, 240, 240))
-        if not (self.isMax and self.window().isMaximized()):
+        if not (self.title_bar.isMax and self.window().isMaximized()):
             painter.drawRoundedRect(self.rect(), 10, 10)
-        elif self.isMax or self.window().isMaximized():
+        elif self.title_bar.isMax or self.window().isMaximized():
             painter.drawRect(self.rect())

@@ -1,7 +1,5 @@
 from enum import Enum
-
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QMouseEvent
+from PySide6.QtGui import QMouseEvent, Qt
 from PySide6.QtWidgets import QWidget
 
 
@@ -23,12 +21,19 @@ class Border(QWidget):
 
         self.border_type = border_type  # 边框类型
         self.border_width = 5  # 边框宽度
-        self.FixedSize()
+
+        # 固定大小
+        if self.border_type == BorderType.top_border or self.border_type == BorderType.bottom_border:
+            self.setFixedHeight(self.border_width)
+        elif self.border_type == BorderType.left_border or self.border_type == BorderType.right_border:
+            self.setFixedWidth(self.border_width)
+        else:
+            self.setFixedSize(self.border_width, self.border_width)
 
     def mousePressEvent(self, event: QMouseEvent):
         if self.window().isMaximized():
             return super().mousePressEvent(event)
-        if event.button() == Qt.LeftButton:
+        if event.button() == Qt.MouseButton.LeftButton:
             match self.border_type:
                 case BorderType.top_border:  # 上
                     self.window().windowHandle().startSystemResize(Qt.Edge.TopEdge)
@@ -62,14 +67,3 @@ class Border(QWidget):
             case BorderType.left_bottom_border | BorderType.right_top_border:  # 左下右上
                 self.setCursor(Qt.CursorShape.SizeBDiagCursor)
         return super().mouseMoveEvent(event)
-
-    def FixedSize(self):
-        """固定大小"""
-        if (self.border_type == BorderType.top_border or
-                self.border_type == BorderType.bottom_border):
-            return self.setFixedHeight(self.border_width)
-        elif (self.border_type == BorderType.left_border or
-              self.border_type == BorderType.right_border):
-            return self.setFixedWidth(self.border_width)
-        else:
-            return self.setFixedSize(self.border_width, self.border_width)
