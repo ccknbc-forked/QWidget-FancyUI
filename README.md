@@ -89,8 +89,9 @@
         <tr>
             <td>def setTextColor</td>
             <td>设置按钮文字默认颜色和悬浮时颜色</td>
-            <td>QColor</td>
-            <td>QColor</td>
+            <td>
+              <tr>QColor</tr>
+              <tr>QColor</tr>
             <td>按钮默认文字颜色<br>按钮悬浮时文字颜色</td>
         </tr>
         <tr>
