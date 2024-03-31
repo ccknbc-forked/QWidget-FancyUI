@@ -79,8 +79,8 @@
             <td>为按钮添加阴影效果</td>
             <td>int<br>
                 int<br>
-                qreal<br>
-                const QColor&</td>
+                float<br>
+                QColor</td>
             <td>阴影右偏移量<br>
                 阴影下偏移量<br>
                 模糊半径<br>
@@ -89,7 +89,7 @@
         <tr>
             <td>def setTextColor</td>
             <td>设置按钮文字默认颜色和悬浮时颜色</td>
-            <td>const QColor&<br>const QColor&</td>
+            <td>QColor&<br>QColor&</td>
             <td>按钮默认文字颜色<br>按钮悬浮时文字颜色</td>
         </tr>
         <tr>
@@ -107,13 +107,13 @@
         <tr>
             <td>def setFillBrush</td>
             <td>设置填充内容绘制笔刷</td>
-            <td>const QBrush &</td>
+            <td>QBrush</td>
             <td>自定义的笔刷样式</td>
         </tr>
         <tr>
             <td>def setAnimationType</td>
             <td>设置动画类型,预提供了5种动画</td>
-            <td>AnimationType枚举类</td>
+            <td>HoverFillButtonBase.AnimationType</td>
             <td>动画类型枚举</td>
         </tr>
     </tbody>
