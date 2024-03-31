@@ -92,6 +92,7 @@
             <td>
               <tr>QColor</tr>
               <tr>QColor</tr>
+            </td>
             <td>按钮默认文字颜色<br>按钮悬浮时文字颜色</td>
         </tr>
         <tr>
