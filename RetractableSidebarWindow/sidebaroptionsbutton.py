@@ -17,7 +17,7 @@ class SidebarOptionsButton(QRadioButton):
         self.background_brush = QBrush(self.dis_clicked_Color)
         self.icon_label = QLabel(self)
         self.text_label = QLabel(self)
-        self.index = index  # 索引, 默认0
+        self.index_ = index  # 索引, 默认0
         self.is_draw_prompt_line = True
         self.fillet_radius = 4
 
@@ -64,10 +64,13 @@ class SidebarOptionsButton(QRadioButton):
         """设置圆角半径"""
         self.fillet_radius = radius
 
+    def index(self):
+        return self.index_
+
     @Slot()
     def setIndex(self, index: int):
         """设置索引"""
-        self.index = index
+        self.index_ = index
 
     @Slot()
     def setIcon(self, icon: QPixmap):
@@ -82,7 +85,7 @@ class SidebarOptionsButton(QRadioButton):
     @Slot()
     def on_toggled(self, is_click: bool):
         if is_click:
-            self.selectedIndex.emit(self.index)
+            self.selectedIndex.emit(self.index_)
             self.background_brush.setColor(self.clicked_color)
         else:
             self.background_brush.setColor(self.dis_clicked_Color)

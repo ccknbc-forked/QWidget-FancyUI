@@ -18,7 +18,7 @@ class Sidebar(QWidget):
         self.animation.setTargetObject(self)
         self.animation.setPropertyName(bytes("size", "utf-8"))
         self.verticalLayout = QVBoxLayout(self)  # 垂直布局
-        self.increasedWidth = 270  # 展开时增加宽度
+        # self.increasedWidth = 270  # 展开时增加宽度
         self.initialSize = QSize()  # 初始尺寸
         self.endSize = QSize()  # 终止尺寸
         self.backgroundBrush = QBrush(qRgb(243, 243, 243))  # 背景色绘制笔刷
@@ -36,7 +36,7 @@ class Sidebar(QWidget):
         self.initialSize.setHeight(self.window().height())
 
         # 动画结束高度和动画起始高度始终相等, 动画结束宽度为动画起始宽度加上展开增加宽度
-        self.endSize.setWidth(self.initialSize.width() + self.increasedWidth)
+        self.endSize.setWidth(self.initialSize.width() + 270)
         self.endSize.setHeight(self.initialSize.height())
 
         self.resize(initial_width, self.window().height())
@@ -67,7 +67,7 @@ class Sidebar(QWidget):
 
     def setIncreasedWidth(self, increased_width: int):
         """设置展开增加宽度"""
-        self.increasedWidth = increased_width
+        self.endSize.setWidth(self.endSize.width() + increased_width - self.endSize.width()+self.initialSize.width())
 
     def setExpandTime(self, ms: int):
         """设置展开时间"""
